@@ -24,6 +24,9 @@ events_request_app_entry_point = AppEntryPoint(
         description='Track the events requests from FAIRmat members',
         search_quantities=SearchQuantities(
             include=[f'data.*#{schema}', f'metadata.*#{schema}']),
+        filters_locked={
+            'entry_type': 'ApplicantInformation',
+        },
         columns=[
             Column(
                 quantity=f'data.full_name#{schema}',
