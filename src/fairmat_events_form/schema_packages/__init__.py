@@ -11,7 +11,7 @@ class EventsSchemaPackageEntryPoint(SchemaPackageEntryPoint):
         return m_package
 
 
-schema_events_entry_point = EventsSchemaPackageEntryPoint(
+events_schema_package_entry_point = EventsSchemaPackageEntryPoint(
     name='fairmat_events_form',
     description='Events form entry point configuration.',
 )

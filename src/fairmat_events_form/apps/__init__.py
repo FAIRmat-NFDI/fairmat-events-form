@@ -11,9 +11,12 @@ from nomad.config.models.ui import (
     WidgetHistogram,
 )
 
+class EventsAppEntryPoint(AppEntryPoint):
+    pass
+
 schema = 'fairmat_events_form.schema_packages.schema_package.ApplicantInformation'
 
-events_request_app_entry_point = AppEntryPoint(
+events_app_entry_point = EventsAppEntryPoint(
     name = 'Events Requests App',
     description = 'This app is to track the submitted\
           events requests by FAIRmat members',
@@ -24,6 +27,9 @@ events_request_app_entry_point = AppEntryPoint(
         description='Track the events requests from FAIRmat members',
         search_quantities=SearchQuantities(
             include=[f'data.*#{schema}', f'metadata.*#{schema}']),
+        filters_locked={
+            'entry_type': 'ApplicantInformation',
+        },
         columns=[
             Column(
                 quantity=f'data.full_name#{schema}',

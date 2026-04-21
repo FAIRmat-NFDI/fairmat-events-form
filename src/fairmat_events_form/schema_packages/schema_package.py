@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 # Access plugin configuration
 configuration = config.get_plugin_entry_point(
-    'fairmat_events_form.schema_packages:schema_events_entry_point'
+    'fairmat_events_form.schema_packages:events_schema_package_entry_point'
 )
 
 m_package = SchemaPackage()

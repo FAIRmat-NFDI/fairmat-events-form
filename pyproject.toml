@@ -112,8 +112,8 @@ where = ["src"]
 
 [project.entry-points.'nomad.plugin']
 
-fairmat_events_form = "fairmat_events_form.schema_packages:schema_events_entry_point"
-events_request_app = "fairmat_events_form.apps:events_request_app_entry_point"
+events_schema_package_entry_point = "fairmat_events_form.schema_packages:events_schema_package_entry_point"
+events_app_entry_point = "fairmat_events_form.apps:events_app_entry_point"
 
 
 
