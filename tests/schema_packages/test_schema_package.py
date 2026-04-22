@@ -10,12 +10,10 @@ def test_schema_package():
 
     data = entry_archive.data
 
-
     assert data.full_name == 'Markus'
     assert data.email == 'markus@example.com'
     assert data.role_at_fairmat == 'Coordinator'
     assert data.fairmat_area == 'F: Outreach'
-
 
     assert hasattr(data, 'summary')
     assert hasattr(data, 'total_expenses')
