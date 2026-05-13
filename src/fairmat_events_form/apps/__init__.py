@@ -9,6 +9,7 @@ from nomad.config.models.ui import (
     MenuItemTerms,
     SearchQuantities,
     WidgetHistogram,
+    WidgetTerms,
 )
 
 
@@ -16,7 +17,14 @@ class EventsAppEntryPoint(AppEntryPoint):
     pass
 
 
-schema = 'fairmat_events_form.schema_packages.schema_package.ApplicantInformation'
+SCHEMA = 'fairmat_events_form.schema_packages.schema_package.ApplicantInformation'
+
+# Indexed term path — same pattern as nomad-training-resources.
+# Querying `fairmat_area_terms.value` lets a multi-area entry match when any
+# of its values is selected (OR-match across areas).
+Q_AREA = f'data.fairmat_area_terms.value#{SCHEMA}'
+Q_ROLE = f'data.role_at_fairmat#{SCHEMA}'
+Q_NAME = f'data.full_name#{SCHEMA}'
 
 events_app_entry_point = EventsAppEntryPoint(
     name='Events Requests App',
@@ -28,29 +36,29 @@ events_app_entry_point = EventsAppEntryPoint(
         category='Use Cases',
         description='Track the events requests from FAIRmat members',
         search_quantities=SearchQuantities(
-            include=[f'data.*#{schema}', f'metadata.*#{schema}']
+            include=[f'data.*#{SCHEMA}', f'metadata.*#{SCHEMA}']
         ),
         filters_locked={
             'entry_type': 'ApplicantInformation',
         },
         columns=[
             Column(
-                quantity=f'data.full_name#{schema}',
+                quantity=Q_NAME,
                 label='Name',
                 selected=True,
             ),
             Column(
-                quantity=f'data.role_at_fairmat#{schema}',
+                quantity=Q_ROLE,
                 label='Role',
                 selected=True,
             ),
             Column(
-                quantity=f'data.fairmat_area#{schema}',
+                quantity=Q_AREA,
                 label='Area',
                 selected=True,
             ),
             Column(
-                quantity=f'data.event_details.event_name#{schema}',
+                quantity=f'data.event_details.event_name#{SCHEMA}',
                 label='Event name',
                 selected=True,
             ),
@@ -59,23 +67,22 @@ events_app_entry_point = EventsAppEntryPoint(
         menu=Menu(
             title='Terms Filters',
             items=[
-                # filter by Area
                 Menu(
                     title='Requestor Information',
                     items=[
                         MenuItemTerms(
-                            quantity=f'data.full_name#{schema}',
+                            quantity=Q_NAME,
                             title='Name',
-                            show_input=False,
+                            show_input=True,
                         ),
                         MenuItemTerms(
-                            quantity=f'data.fairmat_area#{schema}',
+                            quantity=Q_AREA,
                             title='FAIRmat Area',
                             show_input=False,
                         ),
                         MenuItemTerms(
-                            quantity=f'data.role_at_fairmat#{schema}',
-                            title='role',
+                            quantity=Q_ROLE,
+                            title='Role',
                             show_input=False,
                         ),
                     ],
@@ -84,12 +91,12 @@ events_app_entry_point = EventsAppEntryPoint(
                     title='Request Status',
                     items=[
                         MenuItemTerms(
-                            quantity=f'data.status.status#{schema}',
+                            quantity=f'data.status.status#{SCHEMA}',
                             title='Status',
                             show_input=False,
                         ),
                         MenuItemTerms(
-                            quantity=f'data.status.reimbursement_source#{schema}',
+                            quantity=f'data.status.reimbursement_source#{SCHEMA}',
                             title='Paid from',
                             show_input=False,
                         ),
@@ -99,16 +106,32 @@ events_app_entry_point = EventsAppEntryPoint(
         ),
         dashboard=Dashboard(
             widgets=[
+                WidgetTerms(
+                    title='FAIRmat Area',
+                    search_quantity=Q_AREA,
+                    layout={
+                        'md': Layout(w=6, h=4, x=0, y=0, minW=3, minH=3),
+                        'lg': Layout(w=6, h=4, x=0, y=0, minW=3, minH=3),
+                    },
+                ),
+                WidgetTerms(
+                    title='Role',
+                    search_quantity=Q_ROLE,
+                    layout={
+                        'md': Layout(w=6, h=4, x=6, y=0, minW=3, minH=3),
+                        'lg': Layout(w=6, h=4, x=6, y=0, minW=3, minH=3),
+                    },
+                ),
                 WidgetHistogram(
                     title='Event Expenses',
                     autorange=True,
                     nbins=30,
                     scale='linear',
                     x=Axis(
-                        search_quantity=f'data.total_expenses#{schema}',
+                        search_quantity=f'data.total_expenses#{SCHEMA}',
                         title='Total cost (€)',
                     ),
-                    layout={'lg': Layout(minH=4, minW=6, h=4, w=6, y=0, x=0)},
+                    layout={'lg': Layout(minH=4, minW=6, h=4, w=6, y=4, x=0)},
                 ),
                 WidgetHistogram(
                     title='Submission date',
@@ -116,9 +139,9 @@ events_app_entry_point = EventsAppEntryPoint(
                     nbins=30,
                     scale='linear',
                     x=Axis(
-                        search_quantity=f'data.submission_date#{schema}', title='Date'
+                        search_quantity=f'data.submission_date#{SCHEMA}', title='Date'
                     ),
-                    layout={'lg': Layout(minH=4, minW=6, h=4, w=6, y=0, x=6)},
+                    layout={'lg': Layout(minH=4, minW=6, h=4, w=6, y=4, x=6)},
                 ),
             ]
         ),
