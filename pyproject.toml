@@ -84,6 +84,10 @@ select = [
 ignore = [
     "F403", # 'from module import *' used; unable to detect undefined names
     "PLC0415", # `import` should be at the top-level of a file
+    "PLR0911", # too many return statements
+    "PLR0912", # too many branches
+    "PLR0913", # too many arguments in function definition
+    "PLR0915", # too many statements
 ]
 
 fixable = ["ALL"]

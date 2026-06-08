@@ -246,7 +246,8 @@ class EventInformation(ArchiveSection):
     )
 
 
-# Term subsection for multi-value FAIRmat area — same indexing pattern as nomad-training-resources
+# Term subsection for multi-value FAIRmat area —
+# same indexing pattern as nomad-training-resources
 class FairmatAreaTerm(ArchiveSection):
     m_def = Section(a_eln={'hide': ['value']})
     value = Quantity(type=MEnum(*FAIRMAT_AREAS), label_quantity='value')
@@ -274,7 +275,9 @@ class ApplicantInformation(Schema):
         label='Submitter',
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
         a_display={'editable': False},
-        description='Auto-filled from the logged-in user matched against the whitelist.',
+        description=(
+            'Auto-filled from the logged-in user matched against the whitelist.'
+        ),
     )
 
     submission_date = Quantity(
@@ -282,7 +285,7 @@ class ApplicantInformation(Schema):
         label='Date',
         a_eln=ELNAnnotation(component=ELNComponentEnum.DateEditQuantity),
         a_display={'editable': False},
-        description='Auto-filled with today\'s date on first save.',
+        description="Auto-filled with today's date on first save.",
     )
 
     # --- Participant section ---
@@ -291,7 +294,11 @@ class ApplicantInformation(Schema):
         default=True,
         label='Participant: Same as submitter',
         a_eln=ELNAnnotation(component=ELNComponentEnum.BoolEditQuantity),
-        description='Check this if the person attending the event is the same as the person submitting this form. When checked and saved, the fields below are filled automatically.',
+        description=(
+            'Check this if the person attending the event is the same as the '
+            'person submitting this form. When checked and saved, the fields '
+            'below are filled automatically.'
+        ),
     )
 
     full_name = Quantity(
@@ -403,18 +410,24 @@ class ApplicantInformation(Schema):
                 first = getattr(author, 'first_name', '') or ''
                 last = getattr(author, 'last_name', '') or ''
                 full = f'{first} {last}'.strip()
-                submitter = next((p for p in _WHITELIST if p['full_name'] == full), None)
+                submitter = next(
+                    (p for p in _WHITELIST if p['full_name'] == full), None
+                )
                 if submitter:
-                    logger.info(f'EventForm normalize: matched whitelist by name: {full!r}')
+                    logger.info(
+                        f'EventForm normalize: matched whitelist by name: {full!r}'
+                    )
 
         # --- Always update submitted_by (reflects logged-in user each save) ---
         if submitter:
             areas = submitter.get('fairmat_areas') or []
             area_str = areas[0] if areas else ''
-            self.submitted_by = f"{submitter['full_name']} ({area_str})"
+            self.submitted_by = f'{submitter["full_name"]} ({area_str})'
         else:
             # Not whitelisted — show clear warning
-            self.submitted_by = 'Submitter is not whitelisted. Please contact administration.'
+            self.submitted_by = (
+                'Submitter is not whitelisted. Please contact administration.'
+            )
 
         # --- Set submission date once on first save (NOMAD-native datetime) ---
         if not self.submission_date:
@@ -423,7 +436,8 @@ class ApplicantInformation(Schema):
         # --- Resolve participant from the whitelist ---
         # When checkbox is checked: use the submitter as participant.
         # When unchecked: look up by email first (authoritative), then by full_name.
-        # The email always wins — if email and name disagree, name is corrected from whitelist.
+        # The email always wins — if email and name disagree,
+        # name is corrected from whitelist.
         participant = None
         if self.participant_same_as_submitter:
             participant = submitter
@@ -452,7 +466,9 @@ class ApplicantInformation(Schema):
             ]
 
         # --- Build header line for the summary ---
-        date_str = self.submission_date.strftime('%d.%m.%Y') if self.submission_date else '?'
+        date_str = (
+            self.submission_date.strftime('%d.%m.%Y') if self.submission_date else '?'
+        )
         if submitter:
             header_name = submitter['full_name']
             areas = submitter.get('fairmat_areas') or []
@@ -532,100 +548,236 @@ class ApplicantInformation(Schema):
 
         # --- Generate PDF (server-side only, skip in client context) ---
         from nomad.datamodel.context import ClientContext
+
         if self.generate_pdf and not isinstance(archive.m_context, ClientContext):
             try:
                 self.pdf_generated_timestamp = datetime.utcnow()
-                self._write_pdf(archive, logger, header_name, area_short, date_str, details, expenses, status, total_cost)
+                self._write_pdf(
+                    archive,
+                    logger,
+                    header_name,
+                    area_short,
+                    date_str,
+                    details,
+                    expenses,
+                    status,
+                    total_cost,
+                )
             except Exception as e:
                 logger.warning(f'EventForm: PDF generation failed: {e}')
 
-    def _write_pdf(self, archive, logger, header_name, area_short, date_str, details, expenses, status, total_cost):
+    def _write_pdf(
+        self,
+        archive,
+        logger,
+        header_name,
+        area_short,
+        date_str,
+        details,
+        expenses,
+        status,
+        total_cost,
+    ):
         from io import BytesIO
-        from reportlab.lib.pagesizes import A4
-        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-        from reportlab.lib.units import cm
-        from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+
         from reportlab.lib import colors
+        from reportlab.lib.pagesizes import A4
+        from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+        from reportlab.lib.units import cm
+        from reportlab.platypus import (
+            Paragraph,
+            SimpleDocTemplate,
+            Spacer,
+            Table,
+            TableStyle,
+        )
 
         # --- Build filename: YYYY-MM-DD_LastName_EventName.pdf ---
-        date_file = self.submission_date.strftime('%Y-%m-%d') if self.submission_date else 'unknown-date'
+        date_file = (
+            self.submission_date.strftime('%Y-%m-%d')
+            if self.submission_date
+            else 'unknown-date'
+        )
         last_name = (self.full_name or 'unknown').split()[-1]
-        event_name = (details.event_name if details and details.event_name else 'unknown-event')
+        event_name = (
+            details.event_name if details and details.event_name else 'unknown-event'
+        )
+
         # Sanitize for filesystem
-        safe = lambda s: ''.join(c if c.isalnum() or c in '-_.' else '_' for c in s)
+        def safe(s):
+            return ''.join(c if c.isalnum() or c in '-_.' else '_' for c in s)
+
         pdf_filename = f'{safe(date_file)}_{safe(last_name)}_{safe(event_name)}.pdf'
 
         buf = BytesIO()
-        doc = SimpleDocTemplate(buf, pagesize=A4,
-                                leftMargin=2*cm, rightMargin=2*cm,
-                                topMargin=2*cm, bottomMargin=2*cm)
+        doc = SimpleDocTemplate(
+            buf,
+            pagesize=A4,
+            leftMargin=2 * cm,
+            rightMargin=2 * cm,
+            topMargin=2 * cm,
+            bottomMargin=2 * cm,
+        )
         styles = getSampleStyleSheet()
-        bold = ParagraphStyle('bold', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=11)
         normal = styles['Normal']
-        title_style = ParagraphStyle('title', parent=styles['Title'], fontSize=16, spaceAfter=12)
-        section_style = ParagraphStyle('section', parent=styles['Normal'], fontName='Helvetica-Bold',
-                                       fontSize=12, spaceBefore=12, spaceAfter=4,
-                                       textColor=colors.HexColor('#003366'))
+        title_style = ParagraphStyle(
+            'title', parent=styles['Title'], fontSize=16, spaceAfter=12
+        )
+        section_style = ParagraphStyle(
+            'section',
+            parent=styles['Normal'],
+            fontName='Helvetica-Bold',
+            fontSize=12,
+            spaceBefore=12,
+            spaceAfter=4,
+            textColor=colors.HexColor('#003366'),
+        )
 
         story = []
 
         story.append(Paragraph('FAIRmat Event Participation Request', title_style))
-        story.append(Spacer(1, 0.3*cm))
+        story.append(Spacer(1, 0.3 * cm))
 
         # --- Header table ---
         header_data = [
-            [Paragraph('<b>Submitted by:</b>', normal), Paragraph(f'{header_name}, Area {area_short}', normal)],
+            [
+                Paragraph('<b>Submitted by:</b>', normal),
+                Paragraph(f'{header_name}, Area {area_short}', normal),
+            ],
             [Paragraph('<b>Date:</b>', normal), Paragraph(date_str, normal)],
         ]
         if self.full_name:
-            header_data.append([Paragraph('<b>Participant:</b>', normal), Paragraph(self.full_name, normal)])
+            header_data.append(
+                [
+                    Paragraph('<b>Participant:</b>', normal),
+                    Paragraph(self.full_name, normal),
+                ]
+            )
         if self.email:
-            header_data.append([Paragraph('<b>Email:</b>', normal), Paragraph(self.email, normal)])
+            header_data.append(
+                [Paragraph('<b>Email:</b>', normal), Paragraph(self.email, normal)]
+            )
         if self.role_at_fairmat:
-            header_data.append([Paragraph('<b>Role in FAIRmat:</b>', normal), Paragraph(self.role_at_fairmat, normal)])
+            header_data.append(
+                [
+                    Paragraph('<b>Role in FAIRmat:</b>', normal),
+                    Paragraph(self.role_at_fairmat, normal),
+                ]
+            )
         if self.fairmat_areas:
-            header_data.append([Paragraph('<b>FAIRmat Area(s):</b>', normal), Paragraph(', '.join(self.fairmat_areas), normal)])
+            header_data.append(
+                [
+                    Paragraph('<b>FAIRmat Area(s):</b>', normal),
+                    Paragraph(', '.join(self.fairmat_areas), normal),
+                ]
+            )
 
-        header_table = Table(header_data, colWidths=[4.5*cm, 12*cm])
-        header_table.setStyle(TableStyle([
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
-        ]))
+        header_table = Table(header_data, colWidths=[4.5 * cm, 12 * cm])
+        header_table.setStyle(
+            TableStyle(
+                [
+                    ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                    ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+                ]
+            )
+        )
         story.append(header_table)
-        story.append(Spacer(1, 0.5*cm))
+        story.append(Spacer(1, 0.5 * cm))
 
         # --- Event details ---
         if details:
             story.append(Paragraph('Event Details', section_style))
             event_data = []
             if details.event_name:
-                event_data.append([Paragraph('<b>Event:</b>', normal), Paragraph(details.event_name, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Event:</b>', normal),
+                        Paragraph(details.event_name, normal),
+                    ]
+                )
             if details.event_website and details.event_website != 'https://':
-                event_data.append([Paragraph('<b>Website:</b>', normal), Paragraph(details.event_website, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Website:</b>', normal),
+                        Paragraph(details.event_website, normal),
+                    ]
+                )
             if details.event_organizer_or_host:
-                event_data.append([Paragraph('<b>Organizer:</b>', normal), Paragraph(details.event_organizer_or_host, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Organizer:</b>', normal),
+                        Paragraph(details.event_organizer_or_host, normal),
+                    ]
+                )
             if details.location:
-                event_data.append([Paragraph('<b>Location:</b>', normal), Paragraph(details.location, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Location:</b>', normal),
+                        Paragraph(details.location, normal),
+                    ]
+                )
             if details.event_start_date and details.event_end_date:
-                event_data.append([Paragraph('<b>Dates:</b>', normal), Paragraph(f'{details.event_start_date.date()} – {details.event_end_date.date()}', normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Dates:</b>', normal),
+                        Paragraph(
+                            f'{details.event_start_date.date()} – '
+                            f'{details.event_end_date.date()}',
+                            normal,
+                        ),
+                    ]
+                )
             elif details.event_start_date:
-                event_data.append([Paragraph('<b>Date:</b>', normal), Paragraph(str(details.event_start_date.date()), normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Date:</b>', normal),
+                        Paragraph(str(details.event_start_date.date()), normal),
+                    ]
+                )
             if details.attendance_method:
-                event_data.append([Paragraph('<b>Attendance:</b>', normal), Paragraph(details.attendance_method, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Attendance:</b>', normal),
+                        Paragraph(details.attendance_method, normal),
+                    ]
+                )
             if details.participation_type:
-                event_data.append([Paragraph('<b>Participation type:</b>', normal), Paragraph(details.participation_type, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Participation type:</b>', normal),
+                        Paragraph(details.participation_type, normal),
+                    ]
+                )
             if details.title_of_contribution:
-                event_data.append([Paragraph('<b>Contribution title:</b>', normal), Paragraph(details.title_of_contribution, normal)])
+                event_data.append(
+                    [
+                        Paragraph('<b>Contribution title:</b>', normal),
+                        Paragraph(details.title_of_contribution, normal),
+                    ]
+                )
             if event_data:
-                t = Table(event_data, colWidths=[4.5*cm, 12*cm])
-                t.setStyle(TableStyle([('VALIGN', (0, 0), (-1, -1), 'TOP'), ('BOTTOMPADDING', (0, 0), (-1, -1), 4)]))
+                t = Table(event_data, colWidths=[4.5 * cm, 12 * cm])
+                t.setStyle(
+                    TableStyle(
+                        [
+                            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+                        ]
+                    )
+                )
                 story.append(t)
-                story.append(Spacer(1, 0.5*cm))
+                story.append(Spacer(1, 0.5 * cm))
 
         # --- Expenses ---
         if expenses:
             story.append(Paragraph('Expected Expenses', section_style))
-            expense_rows = [[Paragraph('<b>Category</b>', normal), Paragraph('<b>Cost (€)</b>', normal), Paragraph('<b>Details</b>', normal)]]
+            expense_rows = [
+                [
+                    Paragraph('<b>Category</b>', normal),
+                    Paragraph('<b>Cost (€)</b>', normal),
+                    Paragraph('<b>Details</b>', normal),
+                ]
+            ]
             expense_map = [
                 ('travel_cost', 'Travel', 'travel_method'),
                 ('accommodation_cost', 'Accommodation', 'accommodation_justification'),
@@ -637,40 +789,64 @@ class ApplicantInformation(Schema):
                     if hasattr(exp, attr) and getattr(exp, attr):
                         val = getattr(exp, attr)
                         note = getattr(exp, note_attr, '') or '' if note_attr else ''
-                        expense_rows.append([
-                            Paragraph(label, normal),
-                            Paragraph(f'{val:.2f}', normal),
-                            Paragraph(note, normal),
-                        ])
+                        expense_rows.append(
+                            [
+                                Paragraph(label, normal),
+                                Paragraph(f'{val:.2f}', normal),
+                                Paragraph(note, normal),
+                            ]
+                        )
             if total_cost > 0:
-                expense_rows.append([
-                    Paragraph('<b>Total</b>', normal),
-                    Paragraph(f'<b>{total_cost:.2f}</b>', normal),
-                    Paragraph('', normal),
-                ])
-            t = Table(expense_rows, colWidths=[4*cm, 3*cm, 9.5*cm])
-            t.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#4169E1')),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-                ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
-            ]))
+                expense_rows.append(
+                    [
+                        Paragraph('<b>Total</b>', normal),
+                        Paragraph(f'<b>{total_cost:.2f}</b>', normal),
+                        Paragraph('', normal),
+                    ]
+                )
+            t = Table(expense_rows, colWidths=[4 * cm, 3 * cm, 9.5 * cm])
+            t.setStyle(
+                TableStyle(
+                    [
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#4169E1')),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+                        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+                    ]
+                )
+            )
             story.append(t)
-            story.append(Spacer(1, 0.5*cm))
+            story.append(Spacer(1, 0.5 * cm))
 
         # --- Status ---
         if status and status.status:
             story.append(Paragraph('Status', section_style))
             story.append(Paragraph(f'<b>Request status:</b> {status.status}', normal))
             if status.reimbursement_source:
-                story.append(Paragraph(f'<b>To be paid from:</b> {status.reimbursement_source}', normal))
+                story.append(
+                    Paragraph(
+                        f'<b>To be paid from:</b> {status.reimbursement_source}', normal
+                    )
+                )
 
         # --- Footer with timestamp (small text) ---
-        story.append(Spacer(1, 1*cm))
-        timestamp_text = self.pdf_generated_timestamp.strftime('%d.%m.%Y %H:%M') if self.pdf_generated_timestamp else 'N/A'
-        footer_style = ParagraphStyle('footer', parent=styles['Normal'], fontSize=8, textColor=colors.HexColor('#666666'), alignment=1)
-        story.append(Paragraph(f'Summary PDF generated at {timestamp_text}', footer_style))
+        story.append(Spacer(1, 1 * cm))
+        timestamp_text = (
+            self.pdf_generated_timestamp.strftime('%d.%m.%Y %H:%M')
+            if self.pdf_generated_timestamp
+            else 'N/A'
+        )
+        footer_style = ParagraphStyle(
+            'footer',
+            parent=styles['Normal'],
+            fontSize=8,
+            textColor=colors.HexColor('#666666'),
+            alignment=1,
+        )
+        story.append(
+            Paragraph(f'Summary PDF generated at {timestamp_text}', footer_style)
+        )
 
         doc.build(story)
 
