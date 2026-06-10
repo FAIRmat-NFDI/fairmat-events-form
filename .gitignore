@@ -129,5 +129,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Local whitelist — never commit or push
+# Local team file (PII) — never commit or push; delivered at deploy time
+fairmat_team.json
 whitelist.json

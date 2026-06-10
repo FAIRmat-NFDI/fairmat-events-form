@@ -20,35 +20,41 @@ configuration = config.get_plugin_entry_point(
 m_package = SchemaPackage()
 
 # -----------------------------
-# Whitelist loading
+# FAIRmat team file loading
 # -----------------------------
-_WHITELIST_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', '..', '..', 'whitelist.json')
+# The team file location is a deployment concern, decoupled from the code:
+#   1. FAIRMAT_TEAM_FILE env var (set by deployment, e.g. a bind-mounted host file)
+#   2. module-relative fallback for local dev (repo-root fairmat_team.json)
+# Missing file -> empty team list (the plugin still loads).
+_DEFAULT_TEAM_FILE = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', '..', '..', 'fairmat_team.json')
 )
+_TEAM_PATH = os.environ.get('FAIRMAT_TEAM_FILE', _DEFAULT_TEAM_FILE)
 
 FAIRMAT_AREAS = [
     'A: Synthesis',
-    'B: Experiments',
-    'C: Computations',
-    'D: Infrastructure',
-    'E: Usecases',
-    'F: Outreach',
-    'G: Administration',
+    'B: Experiment',
+    'C: Computation',
+    'D: Data modeling and interoperability',
+    'E: Digital infrastructure',
+    'F: Enabling data-driven science',
+    'G: Outreach',
+    'H: Management',
 ]
 
 
-def _load_whitelist():
+def _load_team():
     try:
-        with open(_WHITELIST_PATH) as f:
+        with open(_TEAM_PATH) as f:
             return json.load(f)
     except FileNotFoundError:
         return []
 
 
-_WHITELIST = _load_whitelist()
-_WHITELIST_BY_EMAIL = {p['email'].lower(): p for p in _WHITELIST}
-_WHITELIST_NAMES = [p['full_name'] for p in _WHITELIST]
-_WHITELIST_EMAILS = [p['email'] for p in _WHITELIST]
+_TEAM = _load_team()
+_TEAM_BY_EMAIL = {p['email'].lower(): p for p in _TEAM}
+_TEAM_NAMES = [p['full_name'] for p in _TEAM]
+_TEAM_EMAILS = [p['email'] for p in _TEAM]
 
 
 # -----------------------------
@@ -276,7 +282,7 @@ class ApplicantInformation(Schema):
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
         a_display={'editable': False},
         description=(
-            'Auto-filled from the logged-in user matched against the whitelist.'
+            'Auto-filled from the logged-in user matched against the FAIRmat team list.'
         ),
     )
 
@@ -305,7 +311,7 @@ class ApplicantInformation(Schema):
         type=str,
         a_eln=ELNAnnotation(
             component=ELNComponentEnum.EnumEditQuantity,
-            props=dict(suggestions=_WHITELIST_NAMES),
+            props=dict(suggestions=_TEAM_NAMES),
         ),
         description='Full name of the event participant',
         label='Participant full name (First, Last)',
@@ -315,7 +321,7 @@ class ApplicantInformation(Schema):
         type=str,
         a_eln=ELNAnnotation(
             component=ELNComponentEnum.EnumEditQuantity,
-            props=dict(suggestions=_WHITELIST_EMAILS),
+            props=dict(suggestions=_TEAM_EMAILS),
         ),
         description='Email of the event participant',
         label='Participant email',
@@ -404,18 +410,18 @@ class ApplicantInformation(Schema):
                 f'last_name={getattr(author, "last_name", None)!r}'
             )
             if user_email:
-                submitter = _WHITELIST_BY_EMAIL.get(user_email.lower())
+                submitter = _TEAM_BY_EMAIL.get(user_email.lower())
             # Fallback: match by full name if email lookup failed
             if submitter is None:
                 first = getattr(author, 'first_name', '') or ''
                 last = getattr(author, 'last_name', '') or ''
                 full = f'{first} {last}'.strip()
                 submitter = next(
-                    (p for p in _WHITELIST if p['full_name'] == full), None
+                    (p for p in _TEAM if p['full_name'] == full), None
                 )
                 if submitter:
                     logger.info(
-                        f'EventForm normalize: matched whitelist by name: {full!r}'
+                        f'EventForm normalize: matched team member by name: {full!r}'
                     )
 
         # --- Always update submitted_by (reflects logged-in user each save) ---
@@ -424,29 +430,30 @@ class ApplicantInformation(Schema):
             area_str = areas[0] if areas else ''
             self.submitted_by = f'{submitter["full_name"]} ({area_str})'
         else:
-            # Not whitelisted — show clear warning
+            # Not in the FAIRmat team list — show clear warning
             self.submitted_by = (
-                'Submitter is not whitelisted. Please contact administration.'
+                'Submitter is not in the FAIRmat team list. '
+                'Please contact administration.'
             )
 
         # --- Set submission date once on first save (NOMAD-native datetime) ---
         if not self.submission_date:
             self.submission_date = datetime.utcnow()
 
-        # --- Resolve participant from the whitelist ---
+        # --- Resolve participant from the FAIRmat team list ---
         # When checkbox is checked: use the submitter as participant.
         # When unchecked: look up by email first (authoritative), then by full_name.
         # The email always wins — if email and name disagree,
-        # name is corrected from whitelist.
+        # name is corrected from the team list.
         participant = None
         if self.participant_same_as_submitter:
             participant = submitter
         else:
             if self.email:
-                participant = _WHITELIST_BY_EMAIL.get(self.email.strip().lower())
+                participant = _TEAM_BY_EMAIL.get(self.email.strip().lower())
             if participant is None and self.full_name:
                 participant = next(
-                    (p for p in _WHITELIST if p['full_name'] == self.full_name.strip()),
+                    (p for p in _TEAM if p['full_name'] == self.full_name.strip()),
                     None,
                 )
 
@@ -474,7 +481,7 @@ class ApplicantInformation(Schema):
             areas = submitter.get('fairmat_areas') or []
             area_short = areas[0].split(':')[0].strip() if areas else '?'
         else:
-            # Fallback to the author's display name even when not whitelisted
+            # Fallback to the author's display name even when not in the team list
             if author:
                 first = getattr(author, 'first_name', '') or ''
                 last = getattr(author, 'last_name', '') or ''
