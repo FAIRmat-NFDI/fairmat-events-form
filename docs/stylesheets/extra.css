@@ -67,3 +67,87 @@
     margin-top: 0;
     font-weight: 700;
 }
+
+.md-sidebar--primary {
+  display: none;
+}
+
+.md-content {
+  margin-left: 0;
+}
+
+/* CSS compenents for creating an image slider on the docs */
+/* Slider holding the images */
+.image-slider {
+    display: flex;
+    overflow: hidden;
+    position: relative; /* This ensures that arrows are positioned relative to this container */
+    width: 100%;
+    max-width: 800px; /* Adjust this as necessary */
+    margin: 0 auto;
+    justify-content: center; /* Center the images horizontally */
+    align-items: center;
+}
+
+.image-slider img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Active class for displaying one image at a time */
+.image-slider img.active {
+    opacity: 1;
+    position: relative;
+}
+
+/* Styling for the navigation arrows */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    user-select: none;
+}
+
+/* Left arrow positioning */
+.nav-arrow.left {
+    left: 10px; /* Position on the left edge of the container */
+}
+
+/* Right arrow positioning */
+.nav-arrow.right {
+    right: 10px; /* Position on the right edge of the container */
+}
+
+.click-zoom {
+    text-align: center;
+}
+
+.click-zoom input[type="checkbox"] {
+    z-index: 0;
+    display: none;
+}
+
+.click-zoom img {
+    transition: transform 0.25s ease;
+    z-index: 0;
+    cursor: zoom-in;
+}
+
+.click-zoom input[type="checkbox"]:checked ~ img {
+    transform: scale(2);
+    z-index: 0;
+    cursor: zoom-out;
+}
