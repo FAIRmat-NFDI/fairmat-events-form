@@ -35,6 +35,13 @@ Repository = "https://github.com/ahm531/FAIRmat-events-form"
 
 [project.optional-dependencies]
 dev = ["ruff", "pytest", "structlog"]
+docs = [
+    "mkdocs",
+    "mkdocs-material>=9.5",
+    "pymdown-extensions",
+    "mkdocs-click",
+    "mkdocs-glightbox>=0.5.2",
+]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
