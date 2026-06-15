@@ -50,6 +50,34 @@ The uploads exist in the *Your uploads* page. Here you can view a list of all yo
 
 ---
 
+## Share your upload
+
+Uploads in NOMAD act as collaborative workspaces where data, metadata, and workflows can be organized, shared, and managed.
+
+Uploads can be shared with individual users or user groups using different permission roles:
+
+- Co-authors can edit and manage the upload content.
+- Reviewers can access and review the upload without modifying its content.
+
+For the FAIRmat event request process, you will add the `fairmat_events_team` group as co-author so that the FAIRmat team can access and manage your event request.
+
+**Use the arrow buttons ⬅️➡️ below to follow the steps for sharing your upload.**
+
+<div class="image-slider" id="slider3">
+    <div class="nav-arrow left" id="prev3">←</div>
+    <img src="images/share1.png" alt="To share your upload with others, click on the icon to open the Edit upload members prompt.
+    " class="active">
+    <img src="images/share2.png" alt="Select Group from the dropdown menu on the left.
+    ">
+    <img src="images/share3.png" alt="In the search field, type FAIRmat to find the relevant group, then select fairmat_events_team from the list.
+    ">
+    <img src="images/share4.png" alt="Set the role to co-author, then click on SUBMIT.
+    ">
+    <div class="nav-arrow right" id="next3">→</div>
+</div>
+
+---
+
 ## Create an event request entry
 
 !!! warning "TODO — work in progress"
@@ -60,13 +88,13 @@ The FAIRmat Event Request Form is provided as an ELN entry within NOMAD. NOMAD E
 In this step, you will create a new entry based on the FAIRmat event request schema.
 
 **Use the arrow buttons ⬅️➡️ below to follow the steps for creating the entry from the built-in schema.**
-<div class="image-slider" id="slider3">
-    <div class="nav-arrow left" id="prev3">←</div>
+<div class="image-slider" id="slider4">
+    <div class="nav-arrow left" id="prev4">←</div>
     <img src="./images/entry_1.png" alt="Step 1" class="active">
     <img src="./images/entry_2.png" alt="Step 2">
     <img src="./images/entry_3.png" alt="Step 3">
     <img src="./images/entry_4.png" alt="Step 4">
-    <div class="nav-arrow right" id="next3">→</div>
+    <div class="nav-arrow right" id="next4">→</div>
 </div>
 
 ---
@@ -82,12 +110,12 @@ The entry opens with your applicant and participant information, followed by the
     The **Submitter** is filled in automatically from your logged-in account. The **Participant: Same as submitter** box is checked by default, so when the request is for yourself you can leave it as is. If you are filling in the form for someone else, uncheck the box and enter that person's name and e-mail.
 
 **Use the arrow buttons ⬅️➡️ below to follow the steps for filling in your request.**
-<div class="image-slider" id="slider4">
-    <div class="nav-arrow left" id="prev4">←</div>
+<div class="image-slider" id="slider5">
+    <div class="nav-arrow left" id="prev5">←</div>
     <img src="./images/fill_1.png" alt="Step 1: applicant and participant information" class="active">
     <img src="./images/fill_2.png" alt="Step 2: event details">
     <img src="./images/fill_3.png" alt="Step 3: expected expenses">
-    <div class="nav-arrow right" id="next4">→</div>
+    <div class="nav-arrow right" id="next5">→</div>
 </div>
 
 The **expected expenses** subsection can be added more than once — add one entry per cost category (transportation, accommodation, conference, or other) and pick the category from the dropdown.
