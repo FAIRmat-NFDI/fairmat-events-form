@@ -402,8 +402,15 @@ class ApplicantInformation(Schema):
         # --- Identify logged-in user from NOMAD archive metadata ---
         author = archive.metadata.main_author if archive.metadata else None
         submitter = None
+        # Submitter's display name always comes from Keycloak (the logged-in user),
+        # not from the team list. The team list is still used to confirm membership
+        # and to provide area/role.
+        submitter_name = ''
         if author:
             user_email = getattr(author, 'email', None)
+            first = getattr(author, 'first_name', '') or ''
+            last = getattr(author, 'last_name', '') or ''
+            submitter_name = f'{first} {last}'.strip()
             logger.info(
                 f'EventForm normalize: main_author email={user_email!r}, '
                 f'first_name={getattr(author, "first_name", None)!r}, '
@@ -413,22 +420,20 @@ class ApplicantInformation(Schema):
                 submitter = _TEAM_BY_EMAIL.get(user_email.lower())
             # Fallback: match by full name if email lookup failed
             if submitter is None:
-                first = getattr(author, 'first_name', '') or ''
-                last = getattr(author, 'last_name', '') or ''
-                full = f'{first} {last}'.strip()
                 submitter = next(
-                    (p for p in _TEAM if p['full_name'] == full), None
+                    (p for p in _TEAM if p['full_name'] == submitter_name), None
                 )
                 if submitter:
                     logger.info(
-                        f'EventForm normalize: matched team member by name: {full!r}'
+                        'EventForm normalize: matched team member by name: '
+                        f'{submitter_name!r}'
                     )
 
         # --- Always update submitted_by (reflects logged-in user each save) ---
         if submitter:
             areas = submitter.get('fairmat_areas') or []
             area_str = areas[0] if areas else ''
-            self.submitted_by = f'{submitter["full_name"]} ({area_str})'
+            self.submitted_by = f'{submitter_name} ({area_str})'
         else:
             # Not in the FAIRmat team list — show clear warning
             self.submitted_by = (
@@ -477,17 +482,13 @@ class ApplicantInformation(Schema):
             self.submission_date.strftime('%d.%m.%Y') if self.submission_date else '?'
         )
         if submitter:
-            header_name = submitter['full_name']
+            # Display name from Keycloak (the logged-in user); area from team list.
+            header_name = submitter_name or '(unknown)'
             areas = submitter.get('fairmat_areas') or []
             area_short = areas[0].split(':')[0].strip() if areas else '?'
         else:
             # Fallback to the author's display name even when not in the team list
-            if author:
-                first = getattr(author, 'first_name', '') or ''
-                last = getattr(author, 'last_name', '') or ''
-                header_name = f'{first} {last}'.strip() or '(unknown)'
-            else:
-                header_name = '(unknown)'
+            header_name = submitter_name or '(unknown)'
             area_short = '?'
 
         # --- Build rich-text summary ---
