@@ -32,14 +32,14 @@ _DEFAULT_TEAM_FILE = os.path.abspath(
 _TEAM_PATH = os.environ.get('FAIRMAT_TEAM_FILE', _DEFAULT_TEAM_FILE)
 
 FAIRMAT_AREAS = [
-    'A: Synthesis',
-    'B: Experiment',
-    'C: Computation',
-    'D: Data modeling and interoperability',
-    'E: Digital infrastructure',
-    'F: Enabling data-driven science',
-    'G: Outreach',
-    'H: Management',
+    'Area A - Synthesis',
+    'Area B - Experiment',
+    'Area C - Computation',
+    'Area D - Data modeling and interoperability',
+    'Area E - Digital infrastructure',
+    'Area F - Enabling data-driven science',
+    'Area G - Outreach',
+    'Area H - Management',
 ]
 
 
@@ -93,17 +93,31 @@ class EventExpenses(ArchiveSection):
     A subsection for providing the expected costs associated with the event.
     """
 
+    m_def = Section(
+        label='Please choose a specific expense category',
+        label_quantity='name',
+    )
+
+    name = Quantity(type=str)
+
     intro_expenses = Quantity(
         type=str,
         label='Select one category for expenses from the dropdown menu above.',
     )
 
+    def normalize(self, archive, logger):
+        super().normalize(archive, logger)
+        # Used as the item label in the sub-section list (via label_quantity)
+        self.name = self.m_def.label or self.m_def.name
+
 
 class TransportationExpenses(EventExpenses):
+    m_def = Section(label='Transportation', label_quantity='name')
+
     travel_method = Quantity(
         type=MEnum('Train', 'Flight', 'Car', 'Taxi', 'Public transport', 'Other'),
         a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
-        label='Tranportation Method',
+        label='Transportation Method',
         description='Costs associated to traveling to the conference venue',
     )
 
@@ -124,6 +138,8 @@ class TransportationExpenses(EventExpenses):
 
 
 class AccommodationExpenses(EventExpenses):
+    m_def = Section(label='Accommodation', label_quantity='name')
+
     accomodation_duration = Quantity(
         type=int,
         a_eln=ELNAnnotation(component=ELNComponentEnum.NumberEditQuantity),
@@ -148,12 +164,15 @@ class AccommodationExpenses(EventExpenses):
     cost_night = Quantity(type=float, label='Cost per night')
 
     def normalize(self, archive, logger):
+        super().normalize(archive, logger)
         night = self.accomodation_duration or 1
         total_cost = self.accommodation_cost or 0
         self.cost_night = total_cost / night
 
 
 class ConferenceExpenses(EventExpenses):
+    m_def = Section(label='Conference fee', label_quantity='name')
+
     conference_cost = Quantity(
         type=float,
         a_eln=ELNAnnotation(component=ELNComponentEnum.NumberEditQuantity),
@@ -163,6 +182,8 @@ class ConferenceExpenses(EventExpenses):
 
 
 class OtherExpenses(EventExpenses):
+    m_def = Section(label='Other', label_quantity='name')
+
     other_expenses_description = Quantity(
         type=str,
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
@@ -485,7 +506,8 @@ class ApplicantInformation(Schema):
             # Display name from Keycloak (the logged-in user); area from team list.
             header_name = submitter_name or '(unknown)'
             areas = submitter.get('fairmat_areas') or []
-            area_short = areas[0].split(':')[0].strip() if areas else '?'
+            area_short = areas[0].split(' - ')[0].removeprefix('Area ').strip() \
+                if areas else '?'
         else:
             # Fallback to the author's display name even when not in the team list
             header_name = submitter_name or '(unknown)'
