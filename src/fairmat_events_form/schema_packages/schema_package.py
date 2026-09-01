@@ -587,13 +587,13 @@ class ApplicantInformation(Schema):
                 self._write_pdf(
                     archive,
                     logger,
-                    header_name,
-                    area_short,
-                    date_str,
-                    details,
-                    expenses,
-                    status,
-                    total_cost,
+                    header_name=header_name,
+                    area_short=area_short,
+                    date_str=date_str,
+                    details=details,
+                    expenses=expenses,
+                    status=status,
+                    total_cost=total_cost,
                 )
             except Exception as e:
                 logger.warning(f'EventForm: PDF generation failed: {e}')
@@ -602,6 +602,7 @@ class ApplicantInformation(Schema):
         self,
         archive,
         logger,
+        *,
         header_name,
         area_short,
         date_str,
