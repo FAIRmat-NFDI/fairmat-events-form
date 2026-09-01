@@ -31,6 +31,9 @@ _DEFAULT_TEAM_FILE = os.path.abspath(
 )
 _TEAM_PATH = os.environ.get('FAIRMAT_TEAM_FILE', _DEFAULT_TEAM_FILE)
 
+# Human-readable area labels, kept consistent across all FAIRmat plugins
+# (fairmat-members, fairmat-onboarding, fairmat-events-form): the word 'Area',
+# the letter, a ' - ' separator, then the name.
 FAIRMAT_AREAS = [
     'Area A - Synthesis',
     'Area B - Experiment',
@@ -361,11 +364,10 @@ class ApplicantInformation(Schema):
     )
 
     fairmat_areas = Quantity(
-        type=str,
+        type=MEnum(*FAIRMAT_AREAS),
         shape=['*'],
         a_eln=ELNAnnotation(
             component=ELNComponentEnum.EnumEditQuantity,
-            props=dict(suggestions=FAIRMAT_AREAS),
         ),
         label='FAIRmat Area(s)',
         description='FAIRmat area(s) of the participant.',
@@ -585,13 +587,13 @@ class ApplicantInformation(Schema):
                 self._write_pdf(
                     archive,
                     logger,
-                    header_name,
-                    area_short,
-                    date_str,
-                    details,
-                    expenses,
-                    status,
-                    total_cost,
+                    header_name=header_name,
+                    area_short=area_short,
+                    date_str=date_str,
+                    details=details,
+                    expenses=expenses,
+                    status=status,
+                    total_cost=total_cost,
                 )
             except Exception as e:
                 logger.warning(f'EventForm: PDF generation failed: {e}')
@@ -600,6 +602,7 @@ class ApplicantInformation(Schema):
         self,
         archive,
         logger,
+        *,
         header_name,
         area_short,
         date_str,

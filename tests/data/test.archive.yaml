@@ -4,7 +4,7 @@ data:
   email: markus@example.com
   role_at_fairmat: Coordinator
   fairmat_areas:
-    - "F: Outreach"
+    - "Area G - Outreach"
 
   event_details:
     event_name: FAIRmat Project Meeting

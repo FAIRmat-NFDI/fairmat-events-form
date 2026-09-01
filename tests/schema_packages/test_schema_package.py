@@ -13,7 +13,7 @@ def test_schema_package():
     assert data.full_name == 'Markus'
     assert data.email == 'markus@example.com'
     assert data.role_at_fairmat == 'Coordinator'
-    assert data.fairmat_areas == ['F: Outreach']
+    assert data.fairmat_areas == ['Area G - Outreach']
 
     assert hasattr(data, 'summary')
     assert hasattr(data, 'total_expenses')

@@ -2,7 +2,7 @@ site_name: FAIRmat-events-form
 site_description: This is a plugin to enable collection of events requests from FAIRmat members using NOMAD
 site_author: Ahmed Mansour
 
-repo_url: https://github.com/ahm531/FAIRmat-events-form
+repo_url: https://github.com/FAIRmat-NFDI/fairmat-events-form
 edit_uri: ""
 
 nav:
