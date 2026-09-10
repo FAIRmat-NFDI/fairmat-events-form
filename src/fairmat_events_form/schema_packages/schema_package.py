@@ -160,8 +160,15 @@ class AccommodationExpenses(EventExpenses):
     accommodation_justification = Quantity(
         type=str,
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-        label='Justification (mandatory when this cost is above €90/night)',
-        description='Costs associated to traveling to the event venue',
+        label=(
+            'Justification (mandatory when the cost exceeds '
+            'the maximum allowed by HU)'
+        ),
+        description=(
+            'Check the [official HU documents](https://fairmat-nfdi.github.io/'
+            'fairmat-events-form/travel%5Finformation/travel%5Finformation.html) '
+            'for the maximum rates allowed by HU.'
+        ),
     )
 
     cost_night = Quantity(type=float, label='Cost per night')
