@@ -118,7 +118,7 @@ class TransportationExpenses(EventExpenses):
     m_def = Section(label='Transportation', label_quantity='name')
 
     travel_method = Quantity(
-        type=MEnum('Train', 'Flight', 'Car', 'Taxi', 'Public transport', 'Other'),
+        type=MEnum('Train', 'Flight', 'Car', 'Public transport', 'Other'),
         a_eln=ELNAnnotation(component=ELNComponentEnum.EnumEditQuantity),
         label='Transportation Method',
         description='Costs associated to traveling to the conference venue',
@@ -134,8 +134,10 @@ class TransportationExpenses(EventExpenses):
     travel_justification = Quantity(
         type=str,
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
-        label='Justification (mandatory for 1st class train travel, flights, taxis,\
-                  or business-class tickets)',
+        label=(
+            'Justification (mandatory for 1st class train travel, '
+            'flights, or business-class tickets)'
+        ),
         description='Costs associated to traveling to the event venue',
     )
 
