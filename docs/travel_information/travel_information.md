@@ -2,7 +2,7 @@
 
 ## Documents and regulations
 
-The official documents and links most frequently needed for business trips reimbursed by Humboldt University.
+Below are the official documents and links most often needed for business trips reimbursed by Humboldt University.
 
 | Document | What it covers | Source |
 |---|---|---|
