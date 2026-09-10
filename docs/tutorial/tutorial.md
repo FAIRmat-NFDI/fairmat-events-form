@@ -2,30 +2,12 @@
 
 This page provides instructions for submitting an event participation request in the [FAIRmat Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). The collected information helps FAIRmat keep an overview of the events the team attends, the topics they cover, and the associated costs.
 
-## Create a NOMAD user account
+## Log in to the FAIRmat Oasis
 
-A NOMAD user account is required to access and use NOMAD services, including data management, collaboration, publishing, and analysis features across the NOMAD ecosystem. Publicly available data on NOMAD can be explored without an account. Creating an account is free and only takes a few minutes.
-
-If you already have a NOMAD account, you can use the same account credentials to access the FAIRmat Oasis. There is no need to create a separate account.
+A NOMAD account is required to access the [FAIRmat Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). If you already have a NOMAD account, use the same credentials here. There is no need to create a separate one. If you do not have one yet, see [Create a NOMAD user account](https://docs.nomad-lab.eu/tutorial/overview.html#create-a-nomad-user-account){:target="_blank" rel="noopener"} in the NOMAD documentation. You can also sign in with your university or research institute credentials, or with GitHub, ORCID, or Google, through the Helmholtz AAI.
 
 !!! warning "Attention"
-    Access to the FAIRmat Oasis is restricted to authorized users. The official email addresses of FAIRmat members have already been whitelisted. If you create your NOMAD account using your official FAIRmat email address, you should be able to access the FAIRmat Oasis without additional steps.
-
-    If you have questions about which email address has been whitelisted, experience access issues, or would like to use a different email address, please [contact the FAIRmat team](mailto:fairmat@physik.hu-berlin.de).
-
-**Use the arrow buttons ⬅️➡️ below to slide through the steps and create a NOMAD account.**
-<div class="image-slider" id="slider1">
-    <div class="nav-arrow left" id="prev">←</div>
-    <img src="./images/account_1.png" alt="Image 1" class="active">
-    <img src="./images/account_2.png" alt="Image 2">
-    <img src="./images/account_3.png" alt="Image 3">
-    <img src="./images/account_4.png" alt="Image 4">
-    <div class="nav-arrow right" id="next">→</div>
-</div>
-
-!!! tip "Login via Helmholtz AAI"
-    You can also sign in to NOMAD using your university or research institute credentials, or with social accounts such as GitHub, ORCID, or Google through the Helmholtz AAI.
-    For more information, see [NOMAD documentation](https://nomad-lab.eu/prod/v1/docs/tutorial/overview.html#login-options-via-helmholtz-aai){:target="_blank" rel="noopener"}
+    Access is restricted to authorized users. Official FAIRmat email addresses are already whitelisted, so use yours when creating the account. For access problems or to use a different address, [contact the FAIRmat team](mailto:fairmat@physik.hu-berlin.de).
 
 ---
 
@@ -65,7 +47,7 @@ For the FAIRmat event request process, you will add the `fairmat_events_team` gr
 The FAIRmat Event Request Form is provided as an ELN entry within NOMAD. NOMAD ELN entries provide structured, form-based interfaces for collecting and managing information. In this step, you will create a new entry from the built-in event request schema and fill it in with your applicant and participant information, the event details, and the expected expenses.
 
 !!! tip "Submitter and participant"
-    The **Submitter** is filled in automatically from your logged-in account. The **Participant: Same as submitter** box is checked by default, so when the request is for yourself you can leave it as is. If you are filling in the form for someone else, uncheck the box and enter that person's name and e-mail.
+    The **Submitter** is filled in automatically from your logged-in account. Leave **Participant: Same as submitter** checked if you are filling in the form for yourself. For someone else, uncheck it, enter that person's Email (or name), and save. The remaining participant fields are then filled in from the FAIRmat team list. Check that the filled-in details are correct and complete any field that stayed empty.
 
 **Use the arrow buttons ⬅️➡️ below to follow the steps for creating and filling in your event request entry.**
 <div class="image-slider" id="slider4">
@@ -75,7 +57,7 @@ The FAIRmat Event Request Form is provided as an ELN entry within NOMAD. NOMAD E
     <img src="./images/creat_and_fill_events_entry_3.png" alt="Select Event Participation Request from the list of built-in schemas.">
     <img src="./images/creat_and_fill_events_entry_4.png" alt="Confirm the entry name and the selected Event Participation Request schema.">
     <img src="./images/creat_and_fill_events_entry_5.png" alt="Click CREATE to create the entry.">
-    <img src="./images/creat_and_fill_events_entry_6.png" alt="In the entry, review the applicant and participant information. Leave Participant: Same as submitter checked when the request is for yourself, otherwise uncheck it and fill in the participant's details.">
+    <img src="./images/creat_and_fill_events_entry_6.png" alt="In the entry, review the submitter and participant information. Leave Participant: Same as submitter checked when the request is for yourself, otherwise uncheck it, enter the participant's Email or name, and save.">
     <img src="./images/creat_and_fill_events_entry_7.png" alt="Add any Tags and use the Notes field for information relevant to the events team.">
     <img src="./images/creat_and_fill_events_entry_8.png" alt="Under SUB SECTIONS, click the + next to event details to add the event information.">
     <img src="./images/creat_and_fill_events_entry_9.png" alt="Fill in the event details: event name, website, organizer/host, location, start and end dates, attendance method, participation type, and title of contribution.">
@@ -96,10 +78,10 @@ The FAIRmat Event Request Form is provided as an ELN entry within NOMAD. NOMAD E
     <div class="nav-arrow right" id="next4">→</div>
 </div>
 
-The **expected expenses** subsection can be added more than once — add one entry per cost category (transportation, accommodation, conference, or other) and pick the category from the dropdown.
+The **expected expenses** subsection can be added more than once. Add one entry per cost category (transportation, accommodation, conference, or other) and pick the category from the dropdown.
 
 !!! tip "Provide as much detail as you can"
-    For cost-related fields, include details such as the number of nights or the method of transport. Add a justification only if needed — for example, when a cost is not compliant with HU limits. This helps the review go quickly.
+    For cost-related fields, include details such as the number of nights or the method of transport. Add a justification only if needed, for example when a cost is not compliant with HU limits. This helps the review go quickly.
 
 ---
 

@@ -10,9 +10,9 @@ These fields appear at the top of the entry.
 |---|---|---|
 | **Submitter** | The person filling in the form. | Filled automatically from your logged-in account; read-only. |
 | **Date** | Submission date. | Set automatically on first save; read-only. |
-| **Participant: Same as submitter** | Whether the participant is the same person as the submitter. | Checked by default. Keep it checked when the request is for yourself. Uncheck it if you are filling in the form on behalf of someone else, then enter that person's details below. |
+| **Participant: Same as submitter** | Whether the participant is the same person as the submitter. | Checked by default. Keep it checked when the request is for yourself. Uncheck it if you are filling in the form on behalf of someone else, then enter that person's Email or name below and save. |
 | **Participant full name (First, Last)** | Full name of the event participant. | Suggestions from the FAIRmat team list. Filled automatically when *Same as submitter* is checked. |
-| **Participant email** | E-mail of the event participant. | Suggestions from the FAIRmat team list. Filled automatically when *Same as submitter* is checked. |
+| **Participant email** | Email of the event participant. | Suggestions from the FAIRmat team list. Filled automatically when *Same as submitter* is checked. |
 | **Role in FAIRmat** | The participant's role. | One of `PI`, `Coordinator`, `Coworker`, `Collaborator`. |
 | **FAIRmat Area(s)** | The participant's FAIRmat area(s). | One or more of Areas A–H. |
 | **Tags** | Optional free-form tags for search and categorization. | Add one or more. |
@@ -45,9 +45,9 @@ The **expected expenses** subsection is repeatable: add one entry per expense ca
 
 | Field | What to enter |
 |---|---|
-| **Transportation Method** | `Train`, `Flight`, `Car`, `Taxi`, `Public transport`, or `Other`. |
+| **Transportation Method** | `Train`, `Flight`, `Car`, `Public transport`, or `Other`. |
 | **Cost (Euro)** | Estimated transportation cost. |
-| **Justification** | Mandatory for 1st-class train travel, flights, taxis, or business-class tickets. |
+| **Justification** | Mandatory for 1st-class train travel, flights, or business-class tickets. |
 
 ### Accommodation
 
@@ -55,7 +55,7 @@ The **expected expenses** subsection is repeatable: add one entry per expense ca
 |---|---|
 | **Number of nights** | Number of accommodation nights needed. |
 | **Cost (Euro)** | Total accommodation cost. The cost per night is calculated automatically. |
-| **Justification** | Mandatory when the cost is above €90/night. |
+| **Justification** | Mandatory when the cost exceeds the maximum allowed by HU. |
 
 ### Conference
 
