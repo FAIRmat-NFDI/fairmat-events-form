@@ -33,9 +33,9 @@ Submitting requests through the Oasis helps FAIRmat:
 
 ## What to expect
 
-- requests are reviewed by **Areas F and G**
+- requests are reviewed by **Areas G and H**
 - please **do not book or advertise** anything until the event is confirmed
-- this is FAIRmat's **internal** approval — once approved, proceed with the official travel request via the [HU Employee Self-Service](https://www.hu-berlin.de/universitaet/arbeiten-an-der-hu/employee-self-service)
+- this is FAIRmat's **internal** approval. Once approved, proceed with the official travel request via the [HU Employee Self-Service](https://www.hu-berlin.de/universitaet/arbeiten-an-der-hu/employee-self-service)
 
 </div>
 
@@ -43,7 +43,7 @@ Submitting requests through the Oasis helps FAIRmat:
 
 ## Need support?
 
-- for questions about the form, contact the [FAIRmat Area F team](mailto:fairmat@physik.hu-berlin.de?subject=Question%20on%20FAIRmat%20event%20request%20form)
+- for questions about the form, contact the [FAIRmat Area G team](mailto:fairmat@physik.hu-berlin.de?subject=Question%20on%20FAIRmat%20event%20request%20form)
 - for issues accessing the FAIRmat Oasis, contact the FAIRmat Oasis [admin](mailto:siamak.nakhaie@physik.hu-berlin.de?subject=Issue%20accessing%20the%20FAIRmat%20Oasis)
 
 </div>

@@ -1,31 +1,14 @@
 # Travel Information
 
-This page collects practical travel information for FAIRmat members. It complements the event request: once your FAIRmat request is approved, you still need to follow Humboldt University's official travel procedures.
+## Documents and regulations
 
-!!! note "Order of steps"
-    Submit and get your [FAIRmat event request](../tutorial/tutorial.md) approved **first**. Only afterwards start the official Humboldt University travel request (*Dienstreiseantrag*). The FAIRmat request does not replace the HU process.
+The official documents and links most frequently needed for business trips reimbursed by Humboldt University.
 
-## Humboldt University travel guidelines
-
-Humboldt University's travel rules (the *Dienstreiseordnung*) define how business trips are requested, approved, and reimbursed, including limits for accommodation and daily allowances.
-
-!!! info "Brochure"
-    The official Humboldt University travel brochure will be made available here for download.
-
-    <!-- TODO: place the official HU travel PDF in docs/travel_information/files/ and link it below -->
-    📄 [Download the HU travel brochure (PDF)](./files/hu-travel-brochure.pdf) *(placeholder — to be added)*
-
-<!-- TODO: Summary section — add once the official HU brochure is available.
-     Replace with a concise list of up to ~10 bullet points drawn from the brochure.
-
-## Summary
-
-A short summary of the key points will go here once the official brochure is available.
-
-- Placeholder point 1
-- Placeholder point 2
-- Placeholder point 3
--->
+| Document | What it covers | Source |
+|---|---|---|
+| **[Daily and accommodation allowances abroad](./files/arvvwv_2026.pdf)** | Country- and city-specific reimbursement rates for official travel abroad, valid from 1 January 2026. | *ARVVwV 2026*, [Federal Ministry of the Interior](https://www.tms.bund.de/Webs/TMS/DE/Gesetze/Reisekosten/Reisekostensaetze-Ausland/reisekostensaetze-ausland_node.html){:target="_blank" rel="noopener"} |
+| **[Overnight stays on business trips](https://intranet.hu-berlin.de/pages/mobilitaet-reisen/apps/wiki/abrechnung-von-dienstreisen/list/view/bbda7eb7-4add-48e8-8e79-33fe0a32a25f?currentLanguage=NONE){:target="_blank" rel="noopener"}** | Reimbursement rules for accommodation, including the €70 hotel budget within Germany and the documentation requirements. Also covers private accommodation, overnight lump sums, breakfast costs, and rental arrangements. | [HU intranet](https://intranet.hu-berlin.de/pages/mobilitaet-reisen/apps/wiki/abrechnung-von-dienstreisen/list/view/bbda7eb7-4add-48e8-8e79-33fe0a32a25f?currentLanguage=NONE){:target="_blank" rel="noopener"} · login required |
+| **[Additional expenses](./files/hu-sonstige-auslagen-nebenkosten.pdf)** | Which additional business-travel costs are reimbursable and which are excluded. |  |
 
 ## Questions
 
