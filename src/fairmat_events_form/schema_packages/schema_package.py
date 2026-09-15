@@ -158,8 +158,8 @@ class TransportationExpenses(EventExpenses):
         type=str,
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
         label=(
-            'Justification (mandatory for 1st class train travel, '
-            'flights, or business-class tickets)'
+            'Justification (mandatory for 1st class train, '
+            'and business-class flights)'
         ),
         description='Costs associated to traveling to the event venue',
     )
@@ -189,7 +189,7 @@ class AccommodationExpenses(EventExpenses):
         type=str,
         a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
         label=(
-            'Justification (mandatory above €70 per person per night, '
+            'Justification (mandatory above €70 per night, '
             'excluding breakfast and city tax)'
         ),
         description=(
