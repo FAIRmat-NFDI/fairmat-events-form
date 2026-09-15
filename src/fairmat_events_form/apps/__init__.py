@@ -23,6 +23,10 @@ SCHEMA = 'fairmat_events_form.schema_packages.schema_package.ApplicantInformatio
 # Querying `fairmat_area_terms.value` lets a multi-area entry match when any
 # of its values is selected (OR-match across areas).
 Q_AREA = f'data.fairmat_area_terms.value#{SCHEMA}'
+# Compact letters ('A', 'B', ...) for the results column only; filtering and
+# the dashboard keep using the full 'Area X - Name' values in Q_AREA above.
+# Slice notation is required to pull scalars out of a repeating subsection.
+C_AREA = f'data.fairmat_area_letter_terms[0:10].value#{SCHEMA}'
 Q_ROLE = f'data.role_at_fairmat#{SCHEMA}'
 Q_NAME = f'data.full_name#{SCHEMA}'
 
@@ -53,7 +57,7 @@ events_app_entry_point = EventsAppEntryPoint(
                 selected=True,
             ),
             Column(
-                quantity=Q_AREA,
+                quantity=C_AREA,
                 label='Area',
                 selected=True,
             ),

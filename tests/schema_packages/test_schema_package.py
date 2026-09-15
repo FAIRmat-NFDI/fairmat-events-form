@@ -15,5 +15,9 @@ def test_schema_package():
     assert data.role_at_fairmat == 'Coordinator'
     assert data.fairmat_areas == ['Area G - Outreach']
 
+    # Full values drive search/filtering; letters drive the app's Area column.
+    assert [term.value for term in data.fairmat_area_terms] == ['Area G - Outreach']
+    assert [term.value for term in data.fairmat_area_letter_terms] == ['G']
+
     assert hasattr(data, 'summary')
     assert hasattr(data, 'total_expenses')
