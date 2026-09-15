@@ -46,6 +46,26 @@ FAIRMAT_AREAS = [
 ]
 
 
+def _area_letter(area: str | None) -> str | None:
+    """Compact letter for a FAIRmat area value.
+
+    'Area B - Experiment' -> 'B'; the legacy 'FAIRmat1 Area E - Use Cases'
+    entry -> 'E1' (kept distinct from the FAIRmat 2 'E' and sorted last).
+    Returns None for anything unrecognised.  Same helper as in
+    fairmat-members, so the compact form is identical across plugins.
+    """
+    if not area:
+        return None
+    if area.startswith('FAIRmat1'):
+        return 'E1'
+    prefix = 'Area '
+    if area.startswith(prefix) and len(area) > len(prefix):
+        letter = area[len(prefix)]
+        if letter.isalpha():
+            return letter.upper()
+    return None
+
+
 def _load_team():
     try:
         with open(_TEAM_PATH) as f:
@@ -292,6 +312,14 @@ class FairmatAreaTerm(ArchiveSection):
     value = Quantity(type=MEnum(*FAIRMAT_AREAS), label_quantity='value')
 
 
+# Compact-letter mirror of the same areas, used only by the app's 'Area'
+# column so it stays short.  Filtering and dashboards use FairmatAreaTerm
+# above, whose full 'Area X - Name' values are shared across plugins.
+class FairmatAreaLetterTerm(ArchiveSection):
+    m_def = Section(a_eln={'hide': ['value']})
+    value = Quantity(type=str, label_quantity='value')
+
+
 class ApplicantInformation(Schema):
     """
     An Entry for requesting an approval to attend an external event.
@@ -303,6 +331,7 @@ class ApplicantInformation(Schema):
         a_eln={
             'hide': [
                 'fairmat_area_terms',
+                'fairmat_area_letter_terms',
                 'pdf_generated_timestamp',
             ]
         },
@@ -504,9 +533,20 @@ class ApplicantInformation(Schema):
             self.role_at_fairmat = participant.get('role_at_fairmat')
 
         # --- Sync fairmat_areas into indexed FairmatAreaTerm subsections ---
+        # Full values drive search/filtering; the letter mirror drives the
+        # app's compact 'Area' column.
         if self.fairmat_areas:
             self.fairmat_area_terms = [
                 FairmatAreaTerm(value=area) for area in self.fairmat_areas
+            ]
+            letters = []
+            for area in self.fairmat_areas:
+                letter = _area_letter(area)
+                if letter and letter not in letters:
+                    letters.append(letter)
+            letters.sort(key=lambda value: (value == 'E1', value))
+            self.fairmat_area_letter_terms = [
+                FairmatAreaLetterTerm(value=letter) for letter in letters
             ]
 
         # --- Build header line for the summary ---
@@ -917,6 +957,11 @@ class ApplicantInformation(Schema):
 
     # Hidden subsection — stores indexed, searchable FAIRmat area terms
     fairmat_area_terms = SubSection(section_def=FairmatAreaTerm, repeats=True)
+
+    # Hidden subsection — compact letters for the app's 'Area' column
+    fairmat_area_letter_terms = SubSection(
+        section_def=FairmatAreaLetterTerm, repeats=True
+    )
 
 
 m_package.__init_metainfo__()
