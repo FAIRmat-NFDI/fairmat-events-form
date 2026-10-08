@@ -1,8 +1,8 @@
 # FAIRmat Event Request Form
 
-The FAIRmat Events Form is a NOMAD plugin for submitting and managing FAIRmat event participation requests directly within the [**FAIRmat Oasis**](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). It replaces the previous PDF-and-email workflow with a single, structured place to request approval to attend an event.
+The FAIRmat Events Form is a NOMAD plugin for submitting and managing FAIRmat event participation requests directly within the [**FAIRmat Outreach Oasis**](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). It replaces the previous PDF-and-email workflow with a single, structured place to request approval to attend an event.
 
-Collecting these requests in [**FAIRmat Oasis**](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui) gives FAIRmat a clear, structured overview of the events its members take part in, the topics they cover, and their costs.
+Collecting these requests in [**FAIRmat Outreach Oasis**](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui) gives FAIRmat a clear, structured overview of the events its members take part in, the topics they cover, and their costs.
 
 ---
 <div markdown="block" class="home-grid">
@@ -44,7 +44,7 @@ Submitting requests through the Oasis helps FAIRmat:
 ## Need support?
 
 - for questions about the form, contact the [FAIRmat Area G team](mailto:fairmat@physik.hu-berlin.de?subject=Question%20on%20FAIRmat%20event%20request%20form)
-- for issues accessing the FAIRmat Oasis, contact the FAIRmat Oasis [admin](mailto:siamak.nakhaie@physik.hu-berlin.de?subject=Issue%20accessing%20the%20FAIRmat%20Oasis)
+- for issues accessing the FAIRmat Outreach Oasis, contact the FAIRmat Outreach Oasis [admin](mailto:siamak.nakhaie@physik.hu-berlin.de?subject=Issue%20accessing%20the%20FAIRmat%20Outreach%20Oasis)
 
 </div>
 </div>

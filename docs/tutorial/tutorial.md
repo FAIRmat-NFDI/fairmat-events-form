@@ -1,10 +1,12 @@
 # Instructions for the FAIRmat Event Request Form
 
-This page provides instructions for submitting an event participation request in the [FAIRmat Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). The collected information helps FAIRmat keep an overview of the events the team attends, the topics they cover, and the associated costs.
+This page provides instructions for submitting an event participation request in the [FAIRmat Outreach Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). The collected information helps FAIRmat keep an overview of the events the team attends, the topics they cover, and the associated costs.
 
-## Log in to the FAIRmat Oasis
+## Log in to the FAIRmat Outreach Oasis
 
-A NOMAD account is required to access the [FAIRmat Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). If you already have a NOMAD account, use the same credentials here. There is no need to create a separate one. If you do not have one yet, see [Create a NOMAD user account](https://docs.nomad-lab.eu/tutorial/overview.html#create-a-nomad-user-account){:target="_blank" rel="noopener"} in the NOMAD documentation. You can also sign in with your university or research institute credentials, or with GitHub, ORCID, or Google, through the Helmholtz AAI.
+A NOMAD account is required to access the [FAIRmat Outreach Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). If you already have a NOMAD account, use the same credentials here. There is no need to create a separate one. If you do not have one yet, see [Create a NOMAD user account](https://docs.nomad-lab.eu/tutorial/overview.html#create-a-nomad-user-account){:target="_blank" rel="noopener"} in the NOMAD documentation. You can also sign in with your university or research institute credentials, or with GitHub, ORCID, or Google, through the Helmholtz AAI.
+
+<!-- TODO: after the NOMAD 2.0 docs release, link to https://docs.nomad-lab.eu/howto/manage/gui/account.html#create-a-nomad-account (the current anchor exists only in the 1.4 docs). -->
 
 !!! warning "Attention"
     Access is restricted to authorized users. Official FAIRmat email addresses are already whitelisted, so use yours when creating the account. For access problems or to use a different address, [contact the FAIRmat team](mailto:fairmat@physik.hu-berlin.de).
@@ -17,6 +19,8 @@ In NOMAD, uploads organize related files and entries and act as collaborative wo
 
 For more information about NOMAD uploads and entries, see [The key elements in NOMAD](https://fairmat-nfdi.github.io/nomad-docs/tutorial/upload_publish.html#the-key-elements-in-nomad){:target="_blank" rel="noopener"}
 
+<!-- TODO: after the NOMAD 2.0 docs release, find a new target; this section no longer exists in the new docs. -->
+
 Uploads can be shared with individual users or with user groups using different permission roles:
 
 - Co-authors can edit and manage the upload content.
@@ -28,7 +32,7 @@ For the FAIRmat event request process, you will add the `fairmat_events_team` gr
 
 <div class="image-slider" id="slider2">
     <div class="nav-arrow left" id="prev2">←</div>
-    <img src="images/create_upload_share_with_events_team_0.png" alt="Open the FAIRmat Oasis and log in." class="active">
+    <img src="images/create_upload_share_with_events_team_0.png" alt="Open the FAIRmat Outreach Oasis and log in." class="active">
     <img src="images/create_upload_share_with_events_team_1.png" alt="Navigate to the Your uploads page by hovering over the Publish menu, then clicking on uploads.">
     <img src="images/create_upload_share_with_events_team_2.png" alt="Create a new upload by clicking on the blue button.">
     <img src="images/create_upload_share_with_events_team_3.png" alt="Edit the name of your upload.">
