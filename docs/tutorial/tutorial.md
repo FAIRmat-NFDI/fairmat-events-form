@@ -6,6 +6,8 @@ This page provides instructions for submitting an event participation request in
 
 A NOMAD account is required to access the [FAIRmat Outreach Oasis](https://fairmat-oasis.physik.hu-berlin.de/nomad-oasis/gui). If you already have a NOMAD account, use the same credentials here. There is no need to create a separate one. If you do not have one yet, see [Create a NOMAD user account](https://docs.nomad-lab.eu/tutorial/overview.html#create-a-nomad-user-account){:target="_blank" rel="noopener"} in the NOMAD documentation. You can also sign in with your university or research institute credentials, or with GitHub, ORCID, or Google, through the Helmholtz AAI.
 
+<!-- TODO: after the NOMAD 2.0 docs release, link to https://docs.nomad-lab.eu/howto/manage/gui/account.html#create-a-nomad-account (the current anchor exists only in the 1.4 docs). -->
+
 !!! warning "Attention"
     Access is restricted to authorized users. Official FAIRmat email addresses are already whitelisted, so use yours when creating the account. For access problems or to use a different address, [contact the FAIRmat team](mailto:fairmat@physik.hu-berlin.de).
 
@@ -16,6 +18,8 @@ A NOMAD account is required to access the [FAIRmat Outreach Oasis](https://fairm
 In NOMAD, uploads organize related files and entries and act as collaborative workspaces where data and metadata can be shared and managed. You will create an upload for your event request and then share it with the FAIRmat events team.
 
 For more information about NOMAD uploads and entries, see [The key elements in NOMAD](https://fairmat-nfdi.github.io/nomad-docs/tutorial/upload_publish.html#the-key-elements-in-nomad){:target="_blank" rel="noopener"}
+
+<!-- TODO: after the NOMAD 2.0 docs release, find a new target; this section no longer exists in the new docs. -->
 
 Uploads can be shared with individual users or with user groups using different permission roles:
 
